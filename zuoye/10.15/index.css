@@ -226,7 +226,7 @@ ul {
 .chaye {
   font-size: 26px;
   color: #333;
-  margin-right: 780px;
+  margin-right: 48%;
 }
 
 .con ul {
@@ -286,4 +286,7 @@ ul {
 }
 .xinwen a:hover {
   color: #85bf41;
+}
+.amap-demo {
+  height: 300px;
 }
