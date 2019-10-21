@@ -106,8 +106,8 @@
                         alt="">
                 </div>
                 <div class="dh">
-                    <div v-for="(i,$index) in arr" @click="path(i)">
-                        <a :class="index==i.path?'active':''" :href="i.path">{{i.name}}</a>
+                    <div v-for="(i,$index) in arr">
+                        <a :class="$route.path==i.path?'active':''" :href="'#'+i.path">{{i.name}}</a>
                     </div>
                 </div>
                 <div style="float: right;margin-right: 4%;">
@@ -400,34 +400,20 @@
     new Vue({
         el: '#app',
         data: {
-            index: '#/',
             arr: [{
                     name: '首页',
-                    path: '#/',
+                    path: '/',
 
                 },
                 {
                     name: "产品发布",
-                    path: '#/no2'
+                    path: '/no2'
                 },
                 {
                     name: '资讯发布',
-                    path: '#/no3'
+                    path: '/no3'
                 }
             ]
-        },
-        methods: {
-            path(m) {
-                this.index = m.path
-                sessionStorage.path = this.index
-            }
-        },
-        mounted() {
-            if (sessionStorage.path) {
-                this.index = sessionStorage.path
-            } else {
-                this.index = '#/'
-            }
         },
         router
     })

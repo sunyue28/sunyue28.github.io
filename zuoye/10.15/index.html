@@ -25,9 +25,9 @@
                         alt="">
                 </div>
                 <div>
-                    <div class="sh" v-for="(i,$index) in arr" @click="path(i)">
-                        <div :class="index==i.path?['col','co2']:''">
-                            <a :href="i.path">
+                    <div class="sh" v-for="(i,$index) in arr">
+                        <div :class="$route.path==i.path?['col','co2']:''">
+                            <a :href="'#'+i.path">
                                 <div>{{i.name}}</div>
                             </a>
                             <div class="span"></div>
@@ -882,48 +882,34 @@
     new Vue({
         el: '#box',
         data: {
-            index: '#/',
             arr: [{
                     name: '首页',
-                    path: '#/',
+                    path: '/',
 
                 },
                 {
                     name: '关于',
-                    path: '#/no2'
+                    path: '/no2'
                 },
                 {
                     name: '茶叶',
-                    path: '#/no3'
+                    path: '/no3'
                 },
                 {
                     name: '基地',
-                    path: '#/no4'
+                    path: '/no4'
                 },
                 {
                     name: '新闻',
-                    path: '#/no5'
+                    path: '/no5'
                 },
                 {
                     name: '联系',
-                    path: '#/no6'
+                    path: '/no6'
                 },
             ]
         },
         router,
-        methods: {
-            path(m) {
-                this.index = m.path
-                sessionStorage.path = this.index
-            }
-        },
-        mounted() {
-            if (sessionStorage.path) {
-                this.index = sessionStorage.path
-            } else {
-                this.index = '#/'
-            }
-        },
     })
 </script>
 <script src="./swiper.min.js"></script>

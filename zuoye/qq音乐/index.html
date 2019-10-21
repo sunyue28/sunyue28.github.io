@@ -188,7 +188,7 @@
 
                 <div v-for="i in data" style="line-height: 40px;">
                     <a :href="'#/no5/'+i.data.songname+'/'+i.data.songmid" style="display: block;">
-                        {{i.data.albumname}}
+                        {{i.data.songname}}
                     </a>
                 </div>
             </div>
@@ -198,7 +198,7 @@
         <div style="max-width: 1024px;margin: 0 auto;line-height: 38px;">
             <div v-for="i in data">
                 <a :href="'#/no5/'+i.musicData.songname+'/'+i.musicData.songmid">
-                    {{i.musicData.albumname }}
+                    {{i.musicData.songname }}
                 </a>
 
             </div>
