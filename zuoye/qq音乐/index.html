@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            text-decoration: none;
+        }
+
+        .el-col {
+            text-align: center;
+        }
+
+        .clearfix:after {
+            content: '';
+            display: block;
+            height: 0;
+            clear: both;
+            visibility: hidden
+        }
+
+        a {
+            color: #000;
+        }
+
+        .color {
+            border-bottom: 1px solid #ccc;
+        }
+    </style>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+
+<body>
+    <div id="box">
+        <div>
+            <div style="max-width: 1240px;background: #ccc;line-height: 70px;margin: 0 auto;">
+                <div style="width: 70%;padding-left: 100px; margin-bottom: 20px;" class="clearfix">
+                    <el-col :span="4">
+                        <a v-ess style="text-align: center; display: inline-block;line-height: 40px;width: 100%;"
+                            href="#/">首页</a>
+                    </el-col>
+                    <el-col :span="4">
+                        <a v-ess style="text-align: center; display: inline-block;line-height: 40px;width: 100%;"
+                            href="#/no2">排行榜</a>
+                    </el-col>
+                    <el-col :span="4">
+                        <a v-ess style="text-align: center; display: inline-block;line-height: 40px;width: 100%;"
+                            href="#/no3">歌单</a>
+                    </el-col>
+                    <el-col :span="4">
+                        <a v-ess style="text-align: center; display: inline-block;line-height: 40px;width: 100%;"
+                            href="#/no4">歌手</a>
+                    </el-col>
+                    <el-col :span="4">
+                        <a v-ess style="text-align: center; display: inline-block;line-height: 40px;width: 100%;"
+                            href="#/no5/0/0">播放列表</a>
+                    </el-col>
+                </div>
+            </div>
+        </div>
+        <div>
+            <keep-alive>
+                <router-view></router-view>
+            </keep-alive>
+
+        </div>
+        <div style="position: fixed;bottom:10px;left:0;min-height:60px;width: 100%;">
+            <div style="width: 80%;margin: 0 auto;min-height: 60px;">
+                <audio :src="urls" controls="controls" autoplay="autoplay" style="outline: none; width: 100%; "></audio>
+            </div>
+        </div>
+    </div>
+    <template id="no1">
+        <div>
+            <div style="width: 80%;margin:  0 auto;text-align: center;">
+                <div v-ess
+                    style="border: 1px solid #000 ; border-radius:8px; width: 80%;display: inline-block;line-height: 40px;">
+                    <input @keyup.enter="sech" type="text"
+                        style="width: 100%;outline: none; border: none;line-height: 40px;border-radius:8px;padding-left:10px ;"
+                        v-model="value" /></div>
+            </div>
+            <div
+                style="height: 146px;overflow: hidden;color: #999;max-width: 1024px;margin: 0 auto;padding-left: 20px;margin-top: 20px;">
+                <p style="font-size: 20px">热门搜索</p>
+                <span v-if="sirg" v-for='i in sirg' @click="btn(i.k)"
+                    style="display: inline-block;padding:4px 10px;border-radius:10px;border:1px solid;margin: 5px;">
+                    {{i.k}}
+                </span>
+            </div>
+
+            <div id="sevent"
+                style="transition: .35s;width:70%;background: #fff;;margin: 0 auto;margin-top:10px ;position: absolute;top: 60px;left:15%;height: 0;overflow-y: auto;">
+                <div class="color" v-for=" i in data1" style="line-height:60px;font-size: 14px;padding-left:10px ;"
+                    @click="Play(i.songname,i.songmid)">
+                    <a :href="'#/no5/'+i.songname+'/'+i.songmid" style="display: block;">
+                        <el-row type="flex" class="row-bg">
+                            <el-col :span="8">
+                                <div class="grid-content bg-purple" v-ess
+                                    style="text-align: left;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+                                    {{i.songname}}</div>
+                            </el-col>
+                            <el-col :span="8">
+                                <div class="grid-content bg-purple-light" v-ess>{{i.singer[0].name}}</div>
+                            </el-col>
+                            <el-col :span="8">
+                                <div class="grid-content bg-purple" v-ess
+                                    style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+                                    {{i.albumname}}</div>
+                            </el-col>
+                        </el-row>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template id="no2">
+        <div>
+            <div style="width: 80%;margin: 0 auto;">
+                <div>
+                    <el-col :span="8" v-for='i in data'>
+                        <div
+                            style="position: relative;width: 80%;margin: 0 auto;min-height: 324px;margin-bottom: 10px;z-index: 1;">
+                            <img width="100%" :src="i.picUrl" style="position: absolute;top: 0;left:0;" />
+                            <a :href="'#/no6/'+i.id">
+                                <div style="width: 100%; z-index: 4;position: relative;">
+                                    <div class="grid-content bg-purple;">{{i.topTitle}}</div>
+                                    <div class="grid-content bg-purple"
+                                        style="background:rgba(0,0,0,0.4);min-height:304px;position: relative;">
+                                        <div style="position: absolute;bottom: 0;left: 0;">
+                                            <div v-for="(a,$index) in i.songList"
+                                                style="color: #fff;white-space: nowrap;line-height: 30px;"
+                                                class="clearfix">
+                                                <div style="float: left;width: 10%;">{{$index+1}}</div>
+                                                <div
+                                                    style="float: left;width: 30%;text-align: center;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+                                                    {{a.songname}}</div>
+                                                <div
+                                                    style="float: left;width: 40%;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+                                                    {{a.singername}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </el-col>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template id="no3">
+        <div style="max-width:1024px ;margin: 0 auto;">
+            <div>
+                {{data}}
+            </div>
+        </div>
+    </template>
+    <template id="no4">
+        <div style="max-width: 1024px;margin: 0 auto;">
+            <div>
+                <div v-for="i in data" style="line-height: 36px;">
+                    <a :href="'#/no7/'+i.Fsinger_mid">
+                        {{i.Fsinger_name}}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template id="no5">
+        <div>
+            <div style="width: 56%;margin: 0 auto;background: #f7f7f7; line-height: 40px;border-radius: 4px;padding: 0 10px;margin-top: 10px;"
+                class="clearfix" v-for="i in arr">
+                <el-col :span="8">
+                    <div class="grid-content bg-purple" v-ess
+                        style="text-align: left;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">{{i}}
+                    </div>
+                </el-col>
+            </div>
+        </div>
+    </template>
+    <template id="no6">
+        <div>
+            <div style="max-width: 1024px;margin: 0 auto;">
+
+                <div v-for="i in data" style="line-height: 40px;">
+                    <a :href="'#/no5/'+i.data.songname+'/'+i.data.songmid" style="display: block;">
+                        {{i.data.songname}}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template id="no7">
+        <div style="max-width: 1024px;margin: 0 auto;line-height: 38px;">
+            <div v-for="i in data">
+                <a :href="'#/no5/'+i.musicData.songname+'/'+i.musicData.songmid">
+                    {{i.musicData.songname }}
+                </a>
+            </div>
+        </div>
+    </template>
+</body>
+<script src="vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="vue-router.js" type="text/javascript" charset="utf-8"></script>
+<script src="vue-resource.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script type="text/javascript">
+    Vue.directive('ess', (a) => {
+        a.onmouseover = function () {
+            this.style.color = '#31c27c';
+            this.style.borderColor = '#31c27c';
+        }
+        a.onmouseout = function () {
+            this.style.color = '#000';
+            this.style.borderColor = '#000';
+        }
+    })
+    var router = new VueRouter({
+        routes: [{
+            path: '/',
+            component: {
+                template: '#no1',
+                data() {
+                    return {
+                        value: '',
+                        sirg: '',
+                        data1: '',
+                        mid: '',
+                        name: '',
+                    }
+                },
+                methods: {
+                    sech() {
+                        console.log(this.value)
+                        this.$http.jsonp(
+                            'https://c.y.qq.com/soso/fcgi-bin/client_search_cp?g_tk=5381&p=1&n=20&w=' +
+                            this.value +
+                            '&format=jsonp&jsonpCallback=callback&loginUin=0&hostUin=0&inCharset=utf8&outCharset=utf-8&notice=0&platform=yqq&needNewCode=0&remoteplace=txt.yqq.song&t=0&aggr=1&cr=1&catZhida=1&flag_qc=0', {
+                                jsonpCallback: 'callback'
+                            }).then((data) => {
+                            this.data1 = data.data.data.song.list
+                            sevent.style.height = '400px';
+                        })
+
+                    },
+                    Play(n, m) {
+                        this.name = n;
+                        this.mid = m;
+
+                    },
+                    btn(a) {
+                        this.value = a
+                        this.sech()
+                    }
+                },
+                created() {
+                    this.$http.jsonp(
+                        'https://c.y.qq.com/splcloud/fcgi-bin/gethotkey.fcg?g_tk=5381&uin=0&format=jsonp&jsonpCallback=callback&inCharset=utf-8&outCharset=utf-8&notice=0&platform=h5&needNewCode=1&_=1513317614040', {
+                            jsonpCallback: 'callback',
+                        }).then((data) => {
+                        this.sirg = data.data.data.hotkey;
+                    })
+                }
+            }
+        }, {
+            path: '/no2',
+            component: {
+                template: '#no2',
+                data() {
+                    return {
+                        data: '',
+                    }
+                },
+                created() {
+                    this.$http.jsonp(
+                        'https://c.y.qq.com/v8/fcg-bin/fcg_myqq_toplist.fcg?g_tk=5381&uin=0&format=jsonp&jsonpCallback=callback&inCharset=utf-8&outCharset=utf-8&notice=0&platform=h5&needNewCode=1&_=1512554796112', {
+                            jsonpCallback: 'callback'
+                        }).then((data) => {
+                        this.data = data.data.data.topList
+                    })
+                },
+
+            }
+        }, {
+            path: '/no3',
+            component: {
+                template: '#no3',
+                data() {
+                    return {
+                        data: ''
+                    }
+                },
+                created() {
+                    this.$http.jsonp(
+                        'https://u.y.qq.com/cgi-bin/musicu.fcg?callback=recom3477297233556247&g_tk=1278911659&jsonpCallback=recom3477297233556247&loginUin=0&hostUin=0&format=jsonp&inCharset=utf8&outCharset=utf-8¬ice=0&platform=yqq&needNewCode=0&data={"comm":{"ct":24},"category":{"method":"get_hot_category","param":{"qq":""},"module":"music.web_category_svr"},"recomPlaylist":{"method":"get_hot_recommend","param":{"async":1,"cmd":2},"module":"playlist.HotRecommendServer"},"playlist":{"method":"get_playlist_by_category","param":{"id":8,"curPage":1,"size":40,"order":5,"titleid":8},"module":"playlist.PlayListPlazaServer"},"new_song":{"module":"QQMusic.MusichallServer","method":"GetNewSong","param":{"type":0}},"new_album":{"module":"QQMusic.MusichallServer","method":"GetNewAlbum","param":{"type":0,"category":"-1","genre":0,"year":1,"company":-1,"sort":1,"start":0,"end":39}},"toplist":{"module":"music.web_toplist_svr","method":"get_toplist_index","param":{}},"focus":{"module":"QQMusic.MusichallServer","method":"GetFocus","param":{}}}', {
+                            jsonpCallback: 'callback'
+                        }).then((res) => {
+                        this.data = res
+                    })
+                }
+
+            }
+        }, {
+            path: '/no4',
+            component: {
+                template: '#no4',
+                data() {
+                    return {
+                        data: ''
+                    }
+                },
+                created() {
+                    this.$http.jsonp(
+                        'https://c.y.qq.com/v8/fcg-bin/v8.fcg?channel=singer&page=list&key=all_all_all&pagesize=100&pagenum=1&g_tk=5381&jsonpCallback=callback&loginUin=0&hostUin=0&format=jsonp&inCharset=utf8&outCharset=utf-8&notice=0&platform=yqq&needNewCode=0', {
+                            jsonpCallback: 'callback'
+                        }).then((res) => {
+                        this.data = res.data.data.list
+                    })
+                }
+            }
+        }, {
+            path: '/no6/:id',
+            component: {
+                template: '#no6',
+                data() {
+                    return {
+                        data: ''
+                    }
+                },
+                created() {
+                    var id = this.$route.params.id
+                    this.$http.jsonp(
+                        `https://c.y.qq.com/v8/fcg-bin/fcg_v8_toplist_cp.fcg?g_tk=5381&uin=0&format=jsonp&jsonpCallback=callback&inCharset=utf-8&outCharset=utf-8&notice=0&platform=h5&needNewCode=1&tpl=3&page=detail&type=top&topid=${id}&_=1512563984096`, {
+                            jsonpCallback: 'callback'
+                        }).then((res) => {
+                        this.data = res.data.songlist
+                    })
+                },
+            }
+        }, {
+            path: '/no7/:id',
+            component: {
+                template: '#no7',
+                data() {
+                    return {
+                        data: ''
+                    }
+                },
+                created() {
+                    var mid = this.$route.params.id
+                    this.$http.jsonp(
+                        `https://c.y.qq.com/v8/fcg-bin/fcg_v8_singer_track_cp.fcg?g_tk=5381&jsonpCallback=callback&loginUin=0&hostUin=0&format=jsonp&inCharset=utf8&outCharset=utf-8&notice=0&platform=yqq&needNewCode=0&singermid=${mid}&order=listen&begin=0&num=30&songstatus=1`, {
+                            jsonpCallback: 'callback'
+                        }).then((res) => {
+                        this.data = res.data.data.list
+                    })
+                }
+
+            }
+        }, {
+            path: '/no5/:sname/:songmid',
+            component: {
+                template: '#no5',
+                data() {
+                    return {
+                        songmid: '',
+                        sname: '',
+                        arr: [],
+                    }
+                },
+                created() {
+                    this.songmid = this.$route.params.songmid
+                    this.sname = this.$route.params.sname
+                    if (this.$route.params.songmid) {
+                        if (this.$route.params.songmid != 0 || this.$route.params.sname != 0) {
+                            this.arr.push(this.$route.params.sname)
+                        }
+                    }
+                },
+                watch: {
+                    '$route.params'(a) {
+                        this.songmid = this.$route.params.songmid
+                        this.sname = this.$route.params.sname
+                        console.log(this.$route.params)
+                        if (this.$route.params.songmid) {
+                            if (this.$route.params.songmid != 0 || this.$route.params.sname != 0) {
+                                this.arr.push(this.$route.params.sname)
+                            }
+                        }
+                    }
+                }
+            }
+        }]
+    })
+    new Vue({
+        el: '#box',
+        data: {
+            index: '#/',
+            urls: '',
+            songmid: '',
+            songname: '',
+        },
+        methods: {
+            path(m) {
+                this.index = m.path
+                localStorage.path = this.index
+            }
+        },
+        watch: {
+            '$route.path': function (a) {
+                if (a.length > 6) {
+                    var arr = a.split('/').reverse();
+                    var mid = arr[0];
+                    this.songmid = arr[0];
+                    this.songname = arr[1];
+                    this.$http.jsonp(
+                        'https://c.y.qq.com/base/fcgi-bin/fcg_music_express_mobile3.fcg?g_tk=1278911659&hostUin=0&format=jsonp&callback=callback&inCharset=utf8&outCharset=utf-8&notice=0&platform=yqq&needNewCode=0&cid=205361747&uin=0&songmid=' +
+                        mid + '&filename=C400' + mid + '.m4a&guid=3655047200', {
+                            jsonpCallback: 'callback'
+                        }).then((data) => {
+                        console.log(data)
+                        var filename = data.data.data.items[0].filename
+                        var vkey = data.data.data.items[0].vkey
+                        this.urls =
+                            ` http://dl.stream.qqmusic.qq.com/${filename}?vkey=${vkey}&guid=3655047200&fromtag=66`
+                    })
+                }
+            }
+        },
+        router
+    })
+</script>
+
+</html>
